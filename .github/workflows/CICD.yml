@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Start Docker Compose
+        run: docker-compose -f src/tests/docker-compose.yaml up -d
+
       - name: Semver Check
         uses: cocogitto/cocogitto-action@v3
         with:

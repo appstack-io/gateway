@@ -1,13 +1,15 @@
-import { shutdownComponents } from '../../../main/main';
+import { shutdownComponents } from '@appstack-io/main';
 import {
   isE2E,
   login,
   runMain,
+  setupArangoDb,
   useHost,
   usePorts,
-} from '../../../../tests/utils';
-import { GatewayBody } from './gatewayPayload';
+} from '@appstack-io/tests';
+import { GatewayBody } from '../gatewayPayload';
 import axios from 'axios';
+import { MainModule } from './main.module';
 
 describe('Gateway', () => {
   let ports: {
@@ -20,9 +22,10 @@ describe('Gateway', () => {
   };
   let host: any;
   beforeAll(async () => {
+    await setupArangoDb();
     ports = await usePorts();
     host = useHost();
-    if (!isE2E()) await runMain({ ports });
+    if (!isE2E()) await runMain({ publicMicroservicesModule: MainModule });
   });
 
   afterAll(async () => {
