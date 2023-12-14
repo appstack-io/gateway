@@ -1,0 +1,541 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package main;
+
+message Permission {
+  string id = 1;
+  uint64 createdAt = 2;
+  uint64 updatedAt = 3;
+  string entity = 4;
+  string entityId = 5;
+  string permittedEntity = 6;
+  string permittedEntityId = 7;
+  string action = 8;
+}
+
+message AuthorizableAs {
+  string entity = 1;
+  string entityId = 2;
+}
+
+message Permissions {
+  repeated Permission permissions = 1;
+}
+
+message PermissionCreateOneInput {
+  string entity = 4;
+  string entityId = 5;
+  string permittedEntity = 6;
+  string permittedEntityId = 7;
+  string action = 8;
+}
+
+message PermissionCreateManyInput {
+  string entity = 4;
+  string entityId = 5;
+  string permittedEntity = 6;
+  repeated string permittedEntityIds = 7;
+  string action = 8;
+}
+
+message PermissionFindOneInput {
+  string id = 1;
+}
+
+message PermissionFindWhereInput {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  string permittedEntityId = 4;
+  string action = 5;
+}
+
+message PermissionFindWhereManyInput {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  repeated string permittedEntityIds = 4;
+  string action = 5;
+}
+
+message PermissionFindWhereOrStarInput {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  string permittedEntityId = 4;
+  string action = 5;
+}
+
+message Permitted {
+  string permittedEntity = 1;
+  string permittedEntityId = 2;
+}
+
+message PermissionValidateOneInput {
+  string entity = 1;
+  string entityId = 2;
+  string action = 3;
+  repeated Permitted permitted = 4;
+}
+
+message PermissionValidateOneResult {
+  bool validated = 1;
+}
+
+message PermissionRemoveOneInput {
+  string id = 1;
+}
+
+message PermissionRemoveWhereInput {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  string permittedEntityId = 4;
+  string action = 5;
+}
+
+message PermissionRemoveWhereManyInput {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  repeated string permittedEntityIds = 4;
+  string action = 5;
+}
+
+message PermissionFindByPermittedFilter {
+  string permittedEntity = 6;
+  string permittedEntityId = 7;
+}
+
+message PermissionFindByPermittedOpts {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message PermissionFindByPermittedInput {
+  PermissionFindByPermittedFilter filter = 1;
+  PermissionFindByPermittedOpts opts = 2;
+}
+
+message PermissionFindByPermittedResultMeta {
+  uint64 offset = 1;
+}
+
+message PermissionFindByPermittedResult {
+  PermissionFindByPermittedResultMeta meta = 1;
+  repeated Permission results = 2;
+}
+
+message PermissionFindByEntityFilter {
+  string entity = 6;
+  string entityId = 7;
+  string action = 8;
+}
+
+message PermissionFindByEntityOpts {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message PermissionFindByEntityInput {
+  PermissionFindByEntityFilter filter = 1;
+  PermissionFindByEntityOpts opts = 2;
+}
+
+message PermissionFindByEntityResultMeta {
+  uint64 offset = 1;
+}
+
+message PermissionFindByEntityResult {
+  PermissionFindByEntityResultMeta meta = 1;
+  repeated Permission results = 2;
+}
+
+message PermissionFindAllActionsFilter {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  string permittedEntityId = 4;
+}
+
+message PermissionFindAllActionsOpts {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message PermissionFindAllActionsInput {
+  PermissionFindAllActionsFilter filter = 1;
+  PermissionFindAllActionsOpts opts = 2;
+}
+
+message PermissionFindAllActionsResultMeta {
+  uint64 offset = 1;
+}
+
+message PermissionFindAllActionsResult {
+  PermissionFindAllActionsResultMeta meta = 1;
+  repeated Permission results = 2;
+}
+
+message PermissionRemoveAllActionsFilter {
+  string entity = 1;
+  string entityId = 2;
+  string permittedEntity = 3;
+  string permittedEntityId = 4;
+}
+
+message PermissionRemoveAllActionsInput {
+  PermissionRemoveAllActionsFilter filter = 1;
+}
+
+message Login {
+  string id = 1;
+  uint64 createdAt = 2;
+  uint64 updatedAt = 3;
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  bool isNew = 8;
+  Credentials credentials = 9;
+}
+
+message Credentials {
+  oneof credentials {
+    LocalCredentials local = 1;
+    GoogleCredentials google = 2;
+  }
+}
+
+message LocalCredentials {
+  string username = 1;
+  string password = 2;
+}
+
+message GoogleCredentials {
+  string id = 1;
+}
+
+message LoginCreateOneInput {
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  Credentials credentials = 9;
+}
+
+message LoginUpdateOneInput {
+  string id = 1;
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  Credentials credentials = 9;
+}
+
+message LoginFindOneInput {
+  string id = 1;
+}
+
+message LoginFindWhereInput {
+  string platform = 1;
+  string platformLoginId = 2;
+  string platformLoginSecret = 3;
+}
+
+message LoginFindByPlatformIdInput {
+  string platform = 1;
+  string platformLoginId = 2;
+}
+
+message LoginRemoveOneInput {
+  string id = 1;
+}
+
+message User {
+    string id = 1;
+    uint64 createdAt = 2;
+    uint64 updatedAt = 3;
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserOnboardingFlags {
+    bool initial = 1;
+}
+
+message UserCreateOneInput {
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserUpdateOneInput {
+    string id = 1;
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserFindOneInput {
+    string id = 1;
+}
+
+message UserRemoveOneInput {
+    string id = 1;
+}
+
+message UserSearchFilter {
+    string name = 1;
+}
+
+message UserSearchOpts {
+    uint64 limit = 1;
+    uint64 offset = 2;
+    bool waitForSync = 3;
+}
+
+message UserSearchInput {
+    UserSearchFilter filter = 1;
+    UserSearchOpts opts = 2;
+}
+
+message UserSearchResultMeta {
+    uint64 offset = 1;
+}
+
+message UserSearchResult {
+    UserSearchResultMeta meta = 1;
+    repeated User users = 2;
+}
+
+message Conversation {
+  string id = 1;
+  uint64 createdAt = 2;
+  uint64 updatedAt = 3;
+  string name = 4;
+  string description = 5;
+  uint64 lastMessageAt = 6;
+}
+
+message ConversationCreateOneInput {
+  string name = 4;
+  string description = 5;
+}
+
+message ConversationUpdateOneInput {
+  string id = 1;
+  string name = 4;
+  string description = 5;
+  uint64 lastMessageAt = 6;
+}
+
+message ConversationFindOneInput {
+  string id = 1;
+}
+
+message ConversationRemoveOneInput {
+  string id = 1;
+}
+
+message ConversationFindByParticipantFilter {
+  string participantId = 1;
+  uint64 fromLastMessageAt = 2;
+}
+
+message ConversationFindByParticipantOpts {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message ConversationFindByParticipantInput {
+  ConversationFindByParticipantFilter filter = 1;
+  ConversationFindByParticipantOpts opts = 2;
+}
+
+message ConversationFindByParticipantResultMeta {
+  uint64 offset = 1;
+}
+
+message ConversationFindByParticipantResult {
+  ConversationFindByParticipantResultMeta meta = 1;
+  repeated Conversation results = 2;
+}
+
+message ConversationParticipant {
+  string id = 1;
+  uint64 createdAt = 2;
+  uint64 updatedAt = 3;
+  string conversationId = 4;
+  string participantId = 5;
+  AuthorizableAs writeableAs = 6;
+}
+
+message ConversationParticipantCreateOneInput {
+  string conversationId = 4;
+  string participantId = 5;
+}
+
+message ConversationParticipantFindOneInput {
+  string id = 1;
+}
+
+message ConversationParticipantRemoveOneInput {
+  string id = 1;
+}
+
+message ConversationParticipantFindByConversationFilter {
+  string conversationId = 1;
+}
+
+message ConversationParticipantFindByConversationOpts {
+  uint64 limit = 1;
+  uint64 offset = 2;
+}
+
+message ConversationParticipantFindByConversationInput {
+  ConversationParticipantFindByConversationFilter filter = 1;
+  ConversationParticipantFindByConversationOpts opts = 2;
+}
+
+message ConversationParticipantFindByConversationResultMeta {
+  uint64 offset = 1;
+}
+
+message ConversationParticipantFindByConversationResult {
+  ConversationParticipantFindByConversationResultMeta meta = 1;
+  repeated ConversationParticipant results = 2;
+}
+
+message Message {
+    string id = 1;
+    uint64 createdAt = 2;
+    uint64 updatedAt = 3;
+    string conversationId = 4;
+    MessageMedia media = 5;
+    string senderId = 6;
+    repeated string sentToIds = 7;
+    repeated string receivedByIds = 8;
+    repeated string seenByIds = 9;
+    bool deleted = 10;
+    string uniqueness = 11;
+}
+
+message MessageMedia {
+    string text = 1;
+}
+
+message MessageCreateOneInput {
+    string conversationId = 4;
+    MessageMedia media = 5;
+    string senderId = 6;
+    string uniqueness = 11;
+}
+
+message MessageUpdateOneInput {
+    string id = 1;
+    MessageMedia media = 5;
+}
+
+message MessageFindOneInput {
+    string id = 1;
+}
+
+message MessageFindUniqueInput {
+    string uniqueness = 1;
+}
+
+message MessageRemoveOneInput {
+    string id = 1;
+}
+
+message MessageFindByConversationFilter {
+    string conversationId = 1;
+}
+
+message MessageFindByConversationOpts {
+    uint64 limit = 1;
+    uint64 offset = 2;
+}
+
+message MessageFindByConversationInput {
+    MessageFindByConversationFilter filter = 1;
+    MessageFindByConversationOpts opts = 2;
+}
+
+message MessageFindByConversationResultMeta {
+    uint64 offset = 1;
+}
+
+message MessageFindByConversationResult {
+    MessageFindByConversationResultMeta meta = 1;
+    repeated Message results = 2;
+}
+
+message MessageJobPayload {
+  string id = 1;
+}
+
+service PermissionService {
+  rpc CreateOne (PermissionCreateOneInput) returns (Permission) {}
+  rpc CreateMany (PermissionCreateManyInput) returns (Permissions) {}
+  rpc FindOne (PermissionFindOneInput) returns (Permission) {}
+  rpc FindWhere (PermissionFindWhereInput) returns (Permission) {}
+  rpc FindWhereMany (PermissionFindWhereManyInput) returns (Permissions) {}
+  rpc FindWhereOrStar (PermissionFindWhereOrStarInput) returns (Permission) {}
+  rpc FindByPermitted (PermissionFindByPermittedInput) returns (PermissionFindByPermittedResult) {}
+  rpc FindByEntity (PermissionFindByEntityInput) returns (PermissionFindByEntityResult) {}
+  rpc FindAllActions (PermissionFindAllActionsInput) returns (PermissionFindAllActionsResult) {}
+  rpc ValidateOne (PermissionValidateOneInput) returns (PermissionValidateOneResult) {}
+  rpc RemoveOne (PermissionRemoveOneInput) returns (google.protobuf.Empty) {}
+  rpc RemoveWhere (PermissionRemoveWhereInput) returns (google.protobuf.Empty) {}
+  rpc RemoveWhereMany (PermissionRemoveWhereManyInput) returns (google.protobuf.Empty) {}
+  rpc RemoveAllActions (PermissionRemoveAllActionsInput) returns (google.protobuf.Empty) {}
+}
+
+service LoginService {
+  rpc CreateOne (LoginCreateOneInput) returns (Login) {}
+  rpc FindOne (LoginFindOneInput) returns (Login) {}
+  rpc FindWhere (LoginFindWhereInput) returns (Login) {}
+  rpc FindByPlatformId (LoginFindByPlatformIdInput) returns (Login) {}
+  rpc UpdateOne (LoginUpdateOneInput) returns (Login) {}
+  rpc RemoveOne (LoginRemoveOneInput) returns (google.protobuf.Empty) {}
+}
+
+service UserService {
+    rpc CreateOne (UserCreateOneInput) returns (User) {}
+    rpc UpdateOne (UserUpdateOneInput) returns (User) {}
+    rpc FindOne (UserFindOneInput) returns (User) {}
+    rpc FindMe (google.protobuf.Empty) returns (User) {}
+    rpc RemoveOne (UserRemoveOneInput) returns (google.protobuf.Empty) {}
+    rpc Search (UserSearchInput) returns (UserSearchResult) {}
+}
+
+service ConversationService {
+  rpc CreateOne (ConversationCreateOneInput) returns (Conversation) {}
+  rpc UpdateOne (ConversationUpdateOneInput) returns (Conversation) {}
+  rpc FindOne (ConversationFindOneInput) returns (Conversation) {}
+  rpc RemoveOne (ConversationRemoveOneInput) returns (Conversation) {}
+  rpc FindByParticipant (ConversationFindByParticipantInput) returns (ConversationFindByParticipantResult) {}
+}
+
+service ConversationParticipantService {
+  rpc CreateOne (ConversationParticipantCreateOneInput) returns (ConversationParticipant) {}
+  rpc FindOne (ConversationParticipantFindOneInput) returns (ConversationParticipant) {}
+  rpc RemoveOne (ConversationParticipantRemoveOneInput) returns (ConversationParticipant) {}
+  rpc FindByConversation (ConversationParticipantFindByConversationInput) returns (ConversationParticipantFindByConversationResult) {}
+}
+
+service MessageService {
+    rpc CreateOne (MessageCreateOneInput) returns (Message) {}
+    rpc UpdateOne (MessageUpdateOneInput) returns (Message) {}
+    rpc FindOne (MessageFindOneInput) returns (Message) {}
+    rpc FindUnique (MessageFindUniqueInput) returns (Message) {}
+    rpc RemoveOne (MessageRemoveOneInput) returns (Message) {}
+    rpc FindByConversation (MessageFindByConversationInput) returns (MessageFindByConversationResult) {}
+}
+

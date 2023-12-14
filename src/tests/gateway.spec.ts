@@ -9,7 +9,8 @@ import {
 } from '@appstack-io/tests';
 import { GatewayBody } from '../gatewayPayload';
 import axios from 'axios';
-import { MainModule } from './main.module';
+import { MainMicroservicesModule } from './components/main.microservices.module';
+import { MainHttpModule } from './components/main.http.module';
 
 describe('Gateway', () => {
   let ports: {
@@ -25,7 +26,13 @@ describe('Gateway', () => {
     await setupArangoDb();
     ports = await usePorts();
     host = useHost();
-    if (!isE2E()) await runMain({ publicMicroservicesModule: MainModule });
+    if (!isE2E())
+      await runMain({
+        publicMicroservicesModule: MainMicroservicesModule,
+        privateMicroservicesModule: MainMicroservicesModule,
+        publicHttpModule: MainHttpModule,
+        privateHttpModule: MainHttpModule,
+      });
   });
 
   afterAll(async () => {

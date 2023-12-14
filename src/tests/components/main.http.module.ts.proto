@@ -1,0 +1,147 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package main;
+
+message Login {
+  string id = 1;
+  uint64 createdAt = 2;
+  uint64 updatedAt = 3;
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  bool isNew = 8;
+  Credentials credentials = 9;
+}
+
+message Credentials {
+  oneof credentials {
+    LocalCredentials local = 1;
+    GoogleCredentials google = 2;
+  }
+}
+
+message LocalCredentials {
+  string username = 1;
+  string password = 2;
+}
+
+message GoogleCredentials {
+  string id = 1;
+}
+
+message LoginCreateOneInput {
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  Credentials credentials = 9;
+}
+
+message LoginUpdateOneInput {
+  string id = 1;
+  string platform = 4;
+  string platformLoginId = 5;
+  string platformLoginSecret = 6;
+  string userId = 7;
+  Credentials credentials = 9;
+}
+
+message LoginFindOneInput {
+  string id = 1;
+}
+
+message LoginFindWhereInput {
+  string platform = 1;
+  string platformLoginId = 2;
+  string platformLoginSecret = 3;
+}
+
+message LoginFindByPlatformIdInput {
+  string platform = 1;
+  string platformLoginId = 2;
+}
+
+message LoginRemoveOneInput {
+  string id = 1;
+}
+
+message User {
+    string id = 1;
+    uint64 createdAt = 2;
+    uint64 updatedAt = 3;
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserOnboardingFlags {
+    bool initial = 1;
+}
+
+message UserCreateOneInput {
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserUpdateOneInput {
+    string id = 1;
+    string name = 4;
+    string email = 5;
+    string photo = 6;
+    UserOnboardingFlags onboardingFlags = 7;
+}
+
+message UserFindOneInput {
+    string id = 1;
+}
+
+message UserRemoveOneInput {
+    string id = 1;
+}
+
+message UserSearchFilter {
+    string name = 1;
+}
+
+message UserSearchOpts {
+    uint64 limit = 1;
+    uint64 offset = 2;
+    bool waitForSync = 3;
+}
+
+message UserSearchInput {
+    UserSearchFilter filter = 1;
+    UserSearchOpts opts = 2;
+}
+
+message UserSearchResultMeta {
+    uint64 offset = 1;
+}
+
+message UserSearchResult {
+    UserSearchResultMeta meta = 1;
+    repeated User users = 2;
+}
+
+service LoginService {
+  rpc CreateOne (LoginCreateOneInput) returns (Login) {}
+  rpc FindOne (LoginFindOneInput) returns (Login) {}
+  rpc FindWhere (LoginFindWhereInput) returns (Login) {}
+  rpc FindByPlatformId (LoginFindByPlatformIdInput) returns (Login) {}
+  rpc UpdateOne (LoginUpdateOneInput) returns (Login) {}
+  rpc RemoveOne (LoginRemoveOneInput) returns (google.protobuf.Empty) {}
+}
+
+service UserService {
+    rpc CreateOne (UserCreateOneInput) returns (User) {}
+    rpc UpdateOne (UserUpdateOneInput) returns (User) {}
+    rpc FindOne (UserFindOneInput) returns (User) {}
+    rpc FindMe (google.protobuf.Empty) returns (User) {}
+    rpc RemoveOne (UserRemoveOneInput) returns (google.protobuf.Empty) {}
+    rpc Search (UserSearchInput) returns (UserSearchResult) {}
+}
+
